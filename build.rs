@@ -46,25 +46,34 @@ fn main() {
                          .arg(&format!("{}/isofiles/boot/grub", out_dir))
                          .status().expect("unable to execute mkdir");
     
-    Command::new("cp").args(&["bootloader/grub.cfg"])
+    if !Command::new("cp").args(&["bootloader/grub.cfg"])
                       .arg(&format!("{}/isofiles/boot/grub", out_dir))
-                      .status().unwrap();
+                      .status().expect("Copy worked").success() {
+        panic!("Unable to copy grub cfg");
+    }
 
-    Command::new("cp").arg(&format!("{}/kernel.bin", out_dir))
+    if !Command::new("cp").arg(&format!("{}/kernel.bin", out_dir))
                       .arg(&format!("{}/isofiles/boot/kernel.bin", out_dir))
-                      .status().unwrap();
+                      .status().unwrap().success() {
+        panic!("Unable to move kernel bin");
+    }
 
-    Command::new("cp").arg(&format!("{}", shell.clone().into_string().unwrap()))
+    if !Command::new("cp").arg(&format!("{}", shell.clone().into_string().unwrap()))
                       .arg(&format!("{}/isofiles/initexec", out_dir))
-                      .status().unwrap();
+                      .status().unwrap().success() {
+        panic!("Unable to move initexec");
+    }
 
-    if !Command::new("grub-mkrescue").args(&["-o"])
-                      .arg(&format!("{}/kvos.iso", out_dir))
-                      .arg(&format!("{}/isofiles", out_dir))
-                      .status().expect("unable to use grub")
-                      .success()
+    let mut grub_cmd = Command::new("grub-mkrescue");
+    grub_cmd.args(&["-o"])
+            .arg(&format!("{}/kvos.iso", out_dir))
+            .arg(&format!("{}/isofiles", out_dir));
+
+    let command_out = grub_cmd.output().expect("unable to use grub");
+
+    if !command_out.status.success()
     {
-        panic!("grub-mkrescue failed");
+        panic!("grub-mkrescue failed stderr : {} stdout : {}", String::from_utf8(command_out.stderr).unwrap(), String::from_utf8(command_out.stdout).unwrap());
     }
  
     Command::new("cp").args(&["bootloader/grub-test.cfg"])
