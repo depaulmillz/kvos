@@ -76,9 +76,11 @@ fn main() {
         panic!("grub-mkrescue failed stderr : {} stdout : {}", String::from_utf8(command_out.stderr).unwrap(), String::from_utf8(command_out.stdout).unwrap());
     }
  
-    Command::new("cp").args(&["bootloader/grub-test.cfg"])
+    if !Command::new("cp").args(&["bootloader/grub-test.cfg"])
                       .arg(&format!("{}/isofiles/boot/grub/grub.cfg", out_dir))
-                      .status().unwrap();
+                      .status().unwrap().success() {
+        panic!("Unable to copy grub test config");
+    }
 
     if !Command::new("grub-mkrescue").args(&["-o"])
                       .arg(&format!("{}/kvos-test.iso", out_dir))
