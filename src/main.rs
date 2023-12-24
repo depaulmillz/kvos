@@ -19,6 +19,12 @@ struct Args {
 #[test]
 fn test_all() {
     let iso_path = env!("TEST_ISO_PATH");
+
+    let mut cmd1 = std::process::Command::new("ls");
+    cmd1.arg(format!("{}", iso_path));
+    let output = cmd1.output().unwrap();
+    panic!("{} {}", String::from_utf8(output.stderr).unwrap(), String::from_utf8(output.stdout).unwrap());
+
     let mut cmd = std::process::Command::new("qemu-system-x86_64");
     cmd.arg("-device");
     cmd.arg("isa-debug-exit,iobase=0xf4,iosize=0x04");
