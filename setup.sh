@@ -1,7 +1,7 @@
 rustup override set nightly
-rustup component add rust-src
 rustup target add x86_64-unknown-none
+rustup component add rust-src
 
-sudo apt-get install -y nasm grub-common grub-pc-bin xorriso
+sudo apt-get install -y nasm grub-common grub-pc-bin xorriso qemu
 
 ./create_disks.sh
