@@ -16,7 +16,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Setup
-      run : bash setup.sh
-    - name: Build and test
-      run: cargo build --verbose && cargo test --verbose
+    - name: Setup, Build, and Test
+      run : bash setup.sh && cargo build --verbose && cargo test --verbose
