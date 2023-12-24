@@ -1,0 +1,44 @@
+[package]
+name = "kernel"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type=["staticlib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bit_field = "0.10.2"
+volatile = "0.2.6"
+spin = "0.9"
+x86_64 = "0.14.2"
+uart_16550 = "0.2.0"
+pic8259 = "0.10.1"
+pc-keyboard = "0.5.0"
+multiboot2 = "0.12.0"
+bitflags = "2.4.1" #"0.9.1"
+linked_list_allocator = "0.9.0"
+object = { version = "0.32.1", default-features = false, features = ["read"] }
+asm = { path="../asm" }
+rand_core = "0.6"
+rand_xorshift = "0.3"
+
+[dependencies.lazy_static]
+version="1.0"
+features= ["spin_no_std"]
+
+#[dependencies.crossbeam-queue]
+#version = "0.2.1"
+#default-features = false
+#features = ["alloc"]
+
+#[dependencies.conquer-once]
+#version = "0.2.0"
+#default-features = false
+#
+#[dependencies.futures-util]
+#version = "0.3.4"
+#default-features = false
+#features = ["alloc"]
+

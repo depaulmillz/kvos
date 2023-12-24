@@ -1,0 +1,9 @@
+[package]
+name = "asm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+volatile = "0.2.6"
+bitflags = "0.9.1"
+bit_field = "0.10.2"

@@ -1,0 +1,16 @@
+[package]
+name = "kvos"
+version = "0.1.0"
+edition = "2021"
+resolver = "2"
+
+[build-dependencies]
+kernel = { path = "kernel", target = "x86_64-unknown-none", artifact="staticlib" }
+initexec = { path = "initexec", target = "x86_64-unknown-none", artifact="bin" }
+
+[dependencies]
+clap = { version = "4.4.6", features = ["derive"] }
+
+
+[workspace]
+members = ["kernel", "initexec", "asm", "stdlib"]

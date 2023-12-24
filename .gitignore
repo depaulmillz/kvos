@@ -1,0 +1,8 @@
+/target
+/kernel/target
+/Cargo.lock
+/kernel/Cargo.lock
+.DS_STORE
+.vscode
+/disk.img
+/unit_test_disk.img
